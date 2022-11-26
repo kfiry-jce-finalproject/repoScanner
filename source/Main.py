@@ -1,16 +1,16 @@
 import pandas as pd
+import getopt, sys
 from RepoFetcher import Repo
 from RepoAnalyzer import PmdAnalyzer
 from GithubDb import *
 from RepoAnalyzerCodeql import RepoAnalyzerCodeql
 
 class AnalyzeTemplateMethod:
-    def __init__(self, db, topn):
+    def __init__(self, db):
         self.db = db
-        self.topn = topn
 
-    def run(self, lang, analyzer):
-        df = self.db.getReposByLanguage(lang)[:self.topn]
+    def run(self, lang, analyzer, topn):
+        df = self.db.getReposByLanguage(lang)[:topn]
         for _, x in df.iterrows():
             repo = Repo(x['repo'])
             print(repo.name)
@@ -26,12 +26,31 @@ class Injector:
             token = f.read()
 
         self.analyzer_codeql = RepoAnalyzerCodeql(token)
-        self.template_method = AnalyzeTemplateMethod(self.db, 10)
+        self.template_method = AnalyzeTemplateMethod(self.db)
 
 def main():
-    injector = Injector()
     # os.chdir('../tmp')
-    injector.template_method.run('Java', injector.analyzer_codeql)
+    argumentList = sys.argv[1:]
+    options = 'n:l:'
+    long_options = ['topn=', 'lang']
+    topn = 1
+    lang = 'java'
+    try:
+        # Parsing argument
+        arguments, values = getopt.getopt(argumentList, options, long_options)
+
+        # checking each argument
+        for currentArgument, currentValue in arguments:
+            if currentArgument in ("-n", "--topn="):
+                topn = int(currentValue)
+            elif currentArgument in ("-l", "--lang"):
+                lang = currentValue
+    except getopt.error as err:
+        # output error, and return with an error code
+        print(str(err))
+
+    injector = Injector()
+    injector.template_method.run(lang, injector.analyzer_codeql, topn)
     # template_method.run('Python', analyzer_codeql)
 
 
