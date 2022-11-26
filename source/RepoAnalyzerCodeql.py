@@ -3,19 +3,19 @@ import json
 
 
 class RepoAnalyzerCodeql:
-    def __init__(self):
-        pass
+    def __init__(self, auth_token):
+        self.auth_token = auth_token
 
-    def analyze(self, repo_name, repo_owner):
+    def analyze(self, repo_name, repo_owner, ):
         headers = {
-            'Authorization': 'Bearer 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',
+            'Authorization': f'Bearer {self.auth_token}',
             'Accept': 'application/vnd.github+json'
         }
         response = requests.get(f'https://api.github.com/repos/{repo_owner}/{repo_name}/code-scanning/codeql/databases',
                                 headers=headers)
 
         if response.status_code != 200:
-            print(f'{repo_owner}/{repo_name}.. Failed')
+            print(f'{repo_owner}/{repo_name}.. Failed {response.status_code} ')
             return
         res_dict = response.json()
         print(f'{repo_owner}/{repo_name}..{len(response.json())} scan(s)')
@@ -23,14 +23,12 @@ class RepoAnalyzerCodeql:
         languages = [x['language'] for x in res_dict]
         print(languages)
 
-        headers = {
-            'Authorization': 'Bearer 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',
-            'Accept': 'application/zip'
-        }
+        # change the token for the purpose of downloading the file.
+        headers['Accept'] = 'application/zip'
 
-        for lang in languages :
+        for lang in languages:
             session = requests.Session()
-            local_file = f'../data/codeqldb/{repo_name}_{lang}.zip'
+            local_file = f'../data/codeqldb/{lang}/{repo_name}.zip'
             with session.get(
                     f'https://api.github.com/repos/{repo_owner}/{repo_name}/code-scanning/codeql/databases/{lang}',
                     stream=True, headers=headers) as r:

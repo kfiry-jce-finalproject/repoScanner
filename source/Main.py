@@ -15,16 +15,18 @@ class AnalyzeTemplateMethod:
             repo = Repo(x['repo'])
             print(repo.name)
 #            repo.pull(x['repo_url'])
-#            analyzer.analyze(repo.name, repo.owner)
-
+            analyzer.analyze(repo.name, repo.owner)
 
 class Injector:
     def __init__(self):
         #db  = GithubDb('../Data/github-ranking-unique.csv')
         self.db = GitHubDbPostgres('../data/db_conn.json')
         #analyzer_pmd = PmdAnalyzer()
-        self.analyzer_codeql = RepoAnalyzerCodeql()
-        self.template_method = AnalyzeTemplateMethod(self.db, 1)
+        with open('../data/github_access_token.txt', 'r') as f:
+            token = f.read()
+
+        self.analyzer_codeql = RepoAnalyzerCodeql(token)
+        self.template_method = AnalyzeTemplateMethod(self.db, 10)
 
 def main():
     injector = Injector()
