@@ -34,7 +34,7 @@ def main():
     options = 'n:l:'
     long_options = ['topn=', 'lang']
     topn = 1
-    lang = 'java'
+    lang = 'Java'
     try:
         # Parsing argument
         arguments, values = getopt.getopt(argumentList, options, long_options)
