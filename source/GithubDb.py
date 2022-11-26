@@ -22,7 +22,9 @@ class GitHubDbPostgres:
 
     def getReposByLanguage(self, lang):
         cursor = self.conn.cursor()
-        cursor.execute(f"select {','.join(self.columns)} from repos where language = '{lang}' order by forks DESC" )
+        query = f"select {','.join(self.columns)} from repos where language = '{lang}' order by forks DESC"
+        print(query)
+        cursor.execute(query)
 
         # Naturally we get a list of tupples
         tupples = cursor.fetchall()
@@ -30,6 +32,7 @@ class GitHubDbPostgres:
 
         # We just need to turn it into a pandas dataframe
         df = pd.DataFrame(tupples, columns=self.columns)
+        print(df)
         return df
 
 
