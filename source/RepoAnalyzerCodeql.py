@@ -29,8 +29,8 @@ class RepoAnalyzerCodeql:
         headers['Accept'] = 'application/zip'
 
         for lang in languages:
-            if os.path.exists('../data/codeqldb/{lang}') == False:
-                os.mkdir('../data/codeqldb/{lang}')
+            if os.path.exists(f'../data/codeqldb/{lang}') == False:
+                os.mkdir(f'../data/codeqldb/{lang}')
 
             session = requests.Session()
             local_file = f'../data/codeqldb/{lang}/{repo_name}.zip'
