@@ -2,6 +2,7 @@ import pandas as pd
 import psycopg2
 import json
 
+
 class GithubDb:
     def __init__(self, file):
         self.df = pd.read_csv(file)
@@ -35,4 +36,6 @@ class GitHubDbPostgres:
         print(df)
         return df
 
-
+    def insertCodelQlRecord(self, codeql_record):
+        sql = """INSERT INTO CodeQlDbs(repo_id, lang, dbfilename, db_id, created_at,  VALUES ()"""
+        self.conn.cur.execute(sql, (value1,value2))

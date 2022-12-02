@@ -1,15 +1,13 @@
-
 import os
+from RepoAnalyzer import RepoFilter
 
-class Repo:
-    def __init__(self, name):
-        self.fullname = name
-        split_name = self.fullname.split('/')
-        self.name = split_name[0]
-        self.owner = split_name[1]
 
-    def pull(self, repo_url):
-        if os.path.exists(self.name) == False:
+class RepoGitPuller(RepoFilter):
+    def __init__(self, record):
+        RepoFilter.__init__(self)
+
+    def execute(self, repo_url):
+        if not os.path.exists(self.name):
             cmd = f'git clone ' + repo_url
             print(cmd)
             os.system(cmd)
