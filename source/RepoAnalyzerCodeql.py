@@ -11,7 +11,7 @@ class RepoAnalyzerCodeql(RepoFilter):
         super().__init__()
 
     def execute_impl(self):
-        lang = 'Java'
+        lang = 'java'
         self.dbfolder = f'../data/codeqldb/{self.name}/{lang}'
 
         self.resfolder = f'../data/codeql/{self.name}'
