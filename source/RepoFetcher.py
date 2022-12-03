@@ -4,9 +4,9 @@ from RepoAnalyzer import RepoFilter
 
 class RepoGitPuller(RepoFilter):
     def __init__(self, record):
-        RepoFilter.__init__(self)
+        super().__init__(self)
 
-    def execute(self, repo_url):
+    def execute_impl(self, repo_url):
         if not os.path.exists(self.name):
             cmd = f'git clone ' + repo_url
             print(cmd)
