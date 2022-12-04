@@ -3,12 +3,13 @@ from RepoAnalyzer import RepoFilter
 
 
 class RepoGitPuller(RepoFilter):
-    def __init__(self, record):
-        super().__init__(self)
+    def __init__(self):
+        super().__init__()
 
-    def execute_impl(self, repo_url):
+    def execute_impl(self):
+        os.chdir('../tmp')
         if not os.path.exists(self.name):
-            cmd = f'git clone ' + repo_url
+            cmd = f'git clone ' +  self.repo_url
             print(cmd)
             os.system(cmd)
         else:
@@ -17,3 +18,4 @@ class RepoGitPuller(RepoFilter):
             print(cmd)
             os.system(cmd)
             os.chdir('../')
+        os.chdir('../source')

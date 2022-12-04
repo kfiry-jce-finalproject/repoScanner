@@ -28,9 +28,8 @@ class RepoAnalyzerCodeql(RepoFilter):
             if os.path.exists(f'{db_analysisfolder}/codeql-database.yml'):
                 break
 
-        # C:\GIT\JceFinalProject\repoScanner\data\codeql\1.SARIF C:\Users\kfiry\.codeql\packages\codeql\java-queries\0.4.4\Metrics
         s = os.sep
-        cmd = f'..{s}bin{s}codeql{s}codeql database analyze {db_analysisfolder} --format=sarif-latest --output {self.resfolder}/{lang}.SARIF ..{s}bin{s}codeql{s}qlpack{s}java-queries{s}0.4.4{s}Metrics'
+        cmd = f'..{s}bin{s}codeql{s}codeql database analyze {db_analysisfolder} --format=sarif-latest --output {self.resfolder}/{lang}.SARIF ..{s}bin{s}codeql{s}qlpack{s}java-queries{s}0.4.4{s}/Architecture'
         print(f'executing.. {cmd}')
         os.system(cmd)
         self.output_result(db_analysisfolder)
@@ -42,7 +41,7 @@ class RepoAnalyzerCodeql(RepoFilter):
             for filename in files:
                 file_path = os.path.join(root, filename)
                 if file_path[-(len(ext)):] == ext:
-                    cmd = f'..{s}bin{s}codeql{s}codeql bqrs decode --output={self.resfolder}/{filename[:-len(ext)]}.csv --format=csv {file_path}'
+                    cmd = f'..{s}bin{s}codeql{s}codeql bqrs decode --output={self.resfolder}/{filename[:-len(ext)]}.csv --format=csv "{file_path}"'
                     print(f'executing.. {cmd}')
                     os.system(cmd)
 

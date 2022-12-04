@@ -16,14 +16,15 @@ class RepoFilter:
         self.execute_impl()
 
 
-class PmdAnalyzer:
-    pmd_exec = '.\\..\\bin\\pmd\\bin\\pmd.bat'
-    def __init__(self):
-        print(self.pmd_exec)
+class RepoFetcherPmd(RepoFilter):
 
-    def analyze(self, folder):
-        cmd = f'{self.pmd_exec} -d {folder} -f csv -R rulesets/java/design.xml -r ../data/pmd/{folder}.csv'
-        print(os.getcwd())
+    def __init__(self):
+        super().__init__()
+
+    def execute_impl(self):
+        folder = f'../tmp/{self.name}'
+        s = os.sep
+        pmd_exec = f'.{s}..{s}bin{s}pmd{s}bin{s}pmd.bat'
+        cmd = f'{pmd_exec} -d {folder} -f csv -R rulesets/java/design.xml --no-cache -r ../data/pmd/{self.name}.csv'
         print(cmd)
         os.system(cmd)
-        os.chdir('..')
