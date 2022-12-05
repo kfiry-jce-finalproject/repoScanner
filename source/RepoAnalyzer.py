@@ -1,4 +1,5 @@
 import os
+import platform
 
 class RepoFilter:
     def __init__(self):
@@ -15,7 +16,6 @@ class RepoFilter:
         self.repo_url = repo['repo_url']
         self.execute_impl()
 
-
 class RepoFetcherPmd(RepoFilter):
 
     def __init__(self):
@@ -24,7 +24,12 @@ class RepoFetcherPmd(RepoFilter):
     def execute_impl(self):
         folder = f'../tmp/{self.name}'
         s = os.sep
-        pmd_exec = f'.{s}..{s}bin{s}pmd{s}bin{s}pmd.bat'
+        pmd_exec = f'.{s}..{s}bin{s}pmd{s}bin{s}'
+        if platform.system() == 'Linux':
+            pmd_exec += 'run.sh'
+        else:
+            pmd_exec += 'pmd.bat'
+
         cmd = f'{pmd_exec} -d {folder} -f csv -R rulesets/java/design.xml --no-cache -r ../data/pmd/{self.name}.csv'
         print(cmd)
         os.system(cmd)
