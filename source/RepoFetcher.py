@@ -1,5 +1,5 @@
 import os
-from RepoAnalyzer import RepoFilter
+from RepoFilter import RepoFilter
 
 
 class RepoGitPuller(RepoFilter):

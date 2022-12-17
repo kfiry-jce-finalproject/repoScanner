@@ -1,7 +1,7 @@
 import os
 import requests
 import json
-from RepoAnalyzer import RepoFilter
+from RepoFilter import RepoFilter
 import zipfile
 import shutil
 

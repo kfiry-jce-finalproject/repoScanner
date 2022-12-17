@@ -1,6 +1,6 @@
 import getopt, sys
 from RepoFetcher import RepoGitPuller
-from RepoAnalyzer import RepoFetcherPmd
+from RepoAnalyzerPMD import RepoAnalyzerPmd
 from GithubDb import *
 from RepoAnalyzerCodeql import RepoAnalyzerCodeql
 from RepoFetcherCodeql import RepoFetcherCodeql
@@ -24,7 +24,7 @@ class Injector:
             token = f.read()
         if type == 'pmd':
             fetcher = RepoGitPuller()
-            analyzer = RepoFetcherPmd()
+            analyzer = RepoAnalyzerPmd()
         else:
             fetcher = RepoFetcherCodeql(token)
             analyzer = RepoAnalyzerCodeql()

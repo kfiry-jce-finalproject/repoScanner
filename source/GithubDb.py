@@ -2,7 +2,6 @@ import pandas as pd
 import psycopg2
 import json
 
-
 class GithubDb:
     def __init__(self, file):
         self.df = pd.read_csv(file)
