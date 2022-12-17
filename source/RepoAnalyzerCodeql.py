@@ -1,10 +1,5 @@
 import os.path
-
-import requests
-import json
 from RepoFilter import RepoFilter
-import zipfile
-
 
 class RepoAnalyzerCodeql(RepoFilter):
     def __init__(self):
@@ -44,8 +39,6 @@ class RepoAnalyzerCodeql(RepoFilter):
                     cmd = f'..{s}bin{s}codeql{s}codeql bqrs decode --output={self.resfolder}/{filename[:-len(ext)]}.csv --format=csv "{file_path}"'
                     print(f'executing.. {cmd}')
                     os.system(cmd)
-
-
 
 # codeql database analyze C:\GIT\JceFinalProject\repoScanner\data\codeqldb\java\piggymetrics_java\codeql_db --format=sarif-latest --output C:\GIT\JceFinalProject\repoScanner\data\codeql\1.SARIF C:\Users\kfiry\.codeql\packages\codeql\java-queries\0.4.4\Metrics
 # bqrs decode --output=C:\GIT\JceFinalProject\repoScanner\data\codeql\TPercentaageOfComments.res  --format=csv C:\GIT\JceFinalProject\repoScanner\data\codeqldb\java\piggymetrics_java\codeql_db\results\codeql\java-queries\Metrics\RefTypes\TPercentageOfComments.bqrs
