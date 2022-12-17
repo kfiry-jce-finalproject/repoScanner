@@ -4,6 +4,7 @@ from RepoAnalyzerPMD import RepoAnalyzerPmd
 from GithubDb import *
 from RepoAnalyzerCodeql import RepoAnalyzerCodeql
 from RepoFetcherCodeql import RepoFetcherCodeql
+from RepoAnalyzerJavaNcss import RepoAnalyzerJavaNcss
 
 class AnalyzeTemplateMethod:
     def __init__(self, db, fetcher, analyzer):
@@ -25,10 +26,13 @@ class Injector:
         if type == 'pmd':
             fetcher = RepoGitPuller()
             analyzer = RepoAnalyzerPmd()
+        elif type == 'javancss':
+            fetcher = RepoGitPuller()
+            analyzer = RepoAnalyzerJavaNcss()
         else:
             fetcher = RepoFetcherCodeql(token)
             analyzer = RepoAnalyzerCodeql()
-        self.template_method = AnalyzeTemplateMethod(db, fetcher, analyzer )
+        self.template_method = AnalyzeTemplateMethod(db, fetcher, analyzer)
 
 def main():
     # os.chdir('../tmp')
@@ -37,7 +41,7 @@ def main():
     long_options = ['topn=', 'lang', 'analyzer']
     topn = 1
     lang = 'Java'
-    analyzer_type = 'pmd'
+    analyzer_type = 'javancss'
     try:
         # Parsing argument
         arguments, values = getopt.getopt(argumentList, options, long_options)
