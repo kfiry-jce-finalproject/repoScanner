@@ -35,6 +35,11 @@ class RepoAnalyzerJavaNcss(RepoFilter):
         for item in root.findall('./packages/total'):
             for child in item:
                 totals[child.tag] = child.text
+        packages_count = 0
+        for item in root.findall('./packages/package'):
+                packages_count += 1
+
+        totals['packages'] = packages_count
 
         # return news items list
         return totals
