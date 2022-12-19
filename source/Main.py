@@ -7,8 +7,9 @@ from RepoFetcherCodeql import RepoFetcherCodeql
 from RepoAnalyzerJavaNcss import RepoAnalyzerJavaNcss
 
 class AnalyzeTemplateMethod:
-    def __init__(self, db, fetcher, analyzer):
+    def __init__(self, db, metric_db, fetcher, analyzer):
         self.db = db
+        self.metric_db = metric_db
         self.analyzer = analyzer
         self.fetcher = fetcher
 
@@ -16,11 +17,14 @@ class AnalyzeTemplateMethod:
         df = self.db.getReposByLanguage(lang)[:topn]
         for _, x in df.iterrows():
             self.fetcher.execute(x)
-            self.analyzer.execute(x)
+            res = self.analyzer.execute(x)
+            print(res)
+            self.metric_db.insert_record(res)
 
 class Injector:
     def __init__(self, type):
         db = GitHubDbPostgres('../data/db_conn.json')
+        metric_db = GitHubDbMongoDb('../data/mongo.json')
         with open('../data/github_access_token.txt', 'r') as f:
             token = f.read()
         if type == 'pmd':
@@ -32,7 +36,7 @@ class Injector:
         else:
             fetcher = RepoFetcherCodeql(token)
             analyzer = RepoAnalyzerCodeql()
-        self.template_method = AnalyzeTemplateMethod(db, fetcher, analyzer)
+        self.template_method = AnalyzeTemplateMethod(db, metric_db, fetcher, analyzer)
 
 def main():
     # os.chdir('../tmp')

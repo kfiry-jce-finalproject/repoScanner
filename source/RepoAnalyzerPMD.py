@@ -12,7 +12,7 @@ class RepoAnalyzerPmd(RepoFilter):
         s = os.sep
         pmd_exec = f'.{s}..{s}bin{s}pmd{s}bin{s}'
         if platform.system() == 'Linux':
-            pmd_exec += 'run.sh'
+            pmd_exec += 'run.sh pmd'
         else:
             pmd_exec += 'pmd.bat'
 

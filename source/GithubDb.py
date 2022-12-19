@@ -1,5 +1,6 @@
 import pandas as pd
 import psycopg2
+import pymongo
 import json
 
 class GithubDb:
@@ -14,11 +15,11 @@ class GithubDb:
 class GitHubDbPostgres:
     columns = [ 'repo', 'repo_url']
     def __init__(self, filename):
-        f = open(filename)
-        dic = json.load(f)
+        with open(filename) as f:
+            dic = json.load(f)
         con_string = f"host={dic['host']} dbname={dic['dbname']} user={dic['user']} password={dic['password']}"
         self.conn = psycopg2.connect(con_string)
-        f.close()
+
 
     def getReposByLanguage(self, lang):
         cursor = self.conn.cursor()
@@ -38,3 +39,18 @@ class GitHubDbPostgres:
     def insertCodelQlRecord(self, codeql_record):
         sql = """INSERT INTO CodeQlDbs(repo_id, lang, dbfilename, db_id, created_at,  VALUES ()"""
         self.conn.cur.execute(sql, (value1,value2))
+
+
+class GitHubDbMongoDb:
+    def __init__(self, filename):
+        with open(filename) as f:
+            dic = json.load(f)
+        con_string = f"mongodb://{dic['user']}:{dic['password']}@{dic['host']}:{dic['port']}/"
+        self.client = pymongo.MongoClient(con_string)
+        self.db = self.client[dic['dbname']]
+        self.metric_col = self.db['projectInternalMetric']
+
+    def insert_record(self, row):
+        self.metric_col.insert_one(row)
+
+
