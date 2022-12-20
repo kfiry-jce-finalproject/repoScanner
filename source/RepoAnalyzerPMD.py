@@ -16,6 +16,6 @@ class RepoAnalyzerPmd(RepoFilter):
         else:
             pmd_exec += 'pmd.bat'
 
-        cmd = f'{pmd_exec} -d {folder} -f test -R categoty/java/design.xml --no-cache -r ../data/pmd/{self.name}_c.csv'
+        cmd = f'{pmd_exec} -d {folder} -f csv -R category/java/design.xml --no-cache -r ../data/pmd/{self.name}_c.csv'
         print(cmd)
         os.system(cmd)
