@@ -6,6 +6,7 @@ class RepoAnalyzerPmd(RepoFilter):
 
     def __init__(self):
         super().__init__()
+        self.source = 'pmd'
 
     def execute_impl(self):
         folder = f'../tmp/{self.name}'

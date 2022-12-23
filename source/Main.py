@@ -14,12 +14,13 @@ class AnalyzeTemplateMethod:
         self.fetcher = fetcher
 
     def run(self, lang, topn):
+        print("numofrepos=", topn)
         df = self.db.getReposByLanguage(lang)[:topn]
         for _, x in df.iterrows():
             self.fetcher.execute(x)
             res = self.analyzer.execute(x)
-            print(res)
-            self.metric_db.insert_record(res)
+      #      print(res)
+      #      self.metric_db.insert_record(res)
 
 class Injector:
     def __init__(self, type):
@@ -61,7 +62,7 @@ def main():
     except getopt.error as err:
         # output error, and return with an error code
         print(str(err))
-
+    print(topn)
     injector = Injector(analyzer_type)
     injector.template_method.run(lang, topn)
 
