@@ -2,6 +2,7 @@ from datetime import datetime
 
 class RepoFilter:
     def __init__(self):
+        self.datetime = datetime.now()
         self.repo_url = None
         self.owner = None
         self.fullname = None
@@ -20,7 +21,6 @@ class RepoFilter:
         self.name = split_name[0]
         self.owner = split_name[1]
         self.repo_url = repo['repo_url']
-        self.datetime = datetime.now()
         self.execute_impl()
         return {
             'repo_name': self.fullname,

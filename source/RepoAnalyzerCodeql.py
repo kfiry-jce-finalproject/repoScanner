@@ -4,6 +4,7 @@ from RepoFilter import RepoFilter
 class RepoAnalyzerCodeql(RepoFilter):
     def __init__(self):
         super().__init__()
+        self.source = 'CodeQl'
 
     def execute_impl(self):
         lang = 'java'
