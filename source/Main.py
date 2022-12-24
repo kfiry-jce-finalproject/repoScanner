@@ -19,8 +19,8 @@ class AnalyzeTemplateMethod:
         for _, x in df.iterrows():
             self.fetcher.execute(x)
             res = self.analyzer.execute(x)
-      #      print(res)
-      #      self.metric_db.insert_record(res)
+#            print(res)
+            self.metric_db.insert_record(res)
 
 class Injector:
     def __init__(self, type):
