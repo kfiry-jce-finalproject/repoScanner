@@ -1,6 +1,7 @@
 from RepoFilter import RepoFilter
 import os
 import platform
+import pandas as pd
 
 class RepoAnalyzerPmd(RepoFilter):
 
@@ -17,6 +18,16 @@ class RepoAnalyzerPmd(RepoFilter):
         else:
             pmd_exec += 'pmd.bat'
 
-        cmd = f'{pmd_exec} -d {folder} -f csv -R category/java/design.xml --no-cache -r ../data/pmd/{self.name}_c.csv'
+        cmd = f'{pmd_exec} -d {folder} -f csv -R category/java/design.xml --no-cache -r ../data/pmd/{self.name}.csv'
         print(cmd)
         os.system(cmd)
+
+    def getMetricResults(self):
+        infile = f'../data/pmd/{self.name}.csv'
+        # create element tree object
+        df = pd.read_csv(infile)
+        if len(df) == 0:
+            return {}
+        tmp_dic = df[['Rule','Line']].groupby(['Rule']).count()['Line'].to_dict()
+        totals = {key: str(value) for key, value in tmp_dic.items()}
+        return totals
