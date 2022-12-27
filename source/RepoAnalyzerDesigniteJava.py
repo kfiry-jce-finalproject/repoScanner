@@ -12,7 +12,7 @@ class RepoAnalyzerDesigniteJava(RepoFilter):
     def execute_impl(self):
         folder = f'../tmp/{self.name}'
         s = os.sep
-        _exec = f'java  -Xmx4096m -jar .{s}..{s}bin{s}DesigniteJava{s}DesigniteJava.jar'
+        _exec = f'java  -Xmx8192m -jar .{s}..{s}bin{s}DesigniteJava{s}DesigniteJava.jar'
         cmd = f'{_exec} -i {folder} -o ../data/designiteJava/{self.name}'
         print(cmd)
         os.system(cmd)
