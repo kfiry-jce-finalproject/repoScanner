@@ -5,6 +5,7 @@ from GithubDb import *
 from RepoAnalyzerCodeql import RepoAnalyzerCodeql
 from RepoFetcherCodeql import RepoFetcherCodeql
 from RepoAnalyzerJavaNcss import RepoAnalyzerJavaNcss
+from RepoAnalyzerDesigniteJava import  RepoAnalyzerDesigniteJava
 
 class AnalyzeTemplateMethod:
     def __init__(self, db, metric_db, fetcher, analyzer):
@@ -19,7 +20,6 @@ class AnalyzeTemplateMethod:
         for _, x in df.iterrows():
             self.fetcher.execute(x)
             res = self.analyzer.execute(x)
-#            print(res)
             self.metric_db.insert_record(res)
 
 class Injector:
@@ -34,6 +34,9 @@ class Injector:
         elif type == 'javancss':
             fetcher = RepoGitPuller()
             analyzer = RepoAnalyzerJavaNcss()
+        elif type == 'designiteJava':
+            fetcher = RepoGitPuller()
+            analyzer = RepoAnalyzerDesigniteJava()
         else:
             fetcher = RepoFetcherCodeql(token)
             analyzer = RepoAnalyzerCodeql()
@@ -46,7 +49,7 @@ def main():
     long_options = ['topn=', 'lang', 'analyzer']
     topn = 1
     lang = 'Java'
-    analyzer_type = 'javancss'
+    analyzer_type = 'designiteJava'
     try:
         # Parsing argument
         arguments, values = getopt.getopt(argumentList, options, long_options)
