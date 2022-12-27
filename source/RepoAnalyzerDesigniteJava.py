@@ -12,7 +12,7 @@ class RepoAnalyzerDesigniteJava(RepoFilter):
     def execute_impl(self):
         folder = f'../tmp/{self.name}'
         s = os.sep
-        _exec = f'java  -Xmx4096m -jar .{s}..{s}bin{s}DesigniteJava{s}DesigniteJava.jar'
+        _exec = f'java  -Xmx8192m -jar .{s}..{s}bin{s}DesigniteJava{s}DesigniteJava.jar'
         cmd = f'{_exec} -i {folder} -o ../data/designiteJava/{self.name}'
         print(cmd)
         os.system(cmd)
@@ -31,7 +31,7 @@ class RepoAnalyzerDesigniteJava(RepoFilter):
         # create element tree object
         df = pd.read_csv(infile)
         if len(df) == 0:
-            return tmp_dic
+            return totals
         tmp_dic = df[['Type Name', 'Code Smell']].groupby(['Code Smell']).count()['Type Name'].to_dict()
         for key, value in tmp_dic.items():
             totals[key] = str(value)
