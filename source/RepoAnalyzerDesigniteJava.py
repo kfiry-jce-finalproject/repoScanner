@@ -20,20 +20,20 @@ class RepoAnalyzerDesigniteJava(RepoFilter):
     def getMetricResults(self):
         infile = f'../data/designiteJava/{self.name}/designCodeSmells.csv'
         # create element tree object
-        df = pd.read_csv(infile)
-        if len(df) != 0:
-            tmp_dic = df[['Type Name', 'Code Smell']].groupby(['Code Smell']).count()['Type Name'].to_dict()
-            totals = {key: str(value) for key, value in tmp_dic.items()}
-        else:
-            totals = {}
+        totals = {}
+        if os.path.exists(infile):
+            df = pd.read_csv(infile)
+            if len(df) != 0:
+                tmp_dic = df[['Type Name', 'Code Smell']].groupby(['Code Smell']).count()['Type Name'].to_dict()
+                totals = {key: str(value) for key, value in tmp_dic.items()}
 
         infile = f'../data/designiteJava/{self.name}/implementationCodeSmells.csv'
         # create element tree object
-        df = pd.read_csv(infile)
-        if len(df) == 0:
-            return totals
-        tmp_dic = df[['Type Name', 'Code Smell']].groupby(['Code Smell']).count()['Type Name'].to_dict()
-        for key, value in tmp_dic.items():
-            totals[key] = str(value)
+        if os.path.exists(infile):
+            df = pd.read_csv(infile)
+            if len(df) != 0:
+                tmp_dic = df[['Type Name', 'Code Smell']].groupby(['Code Smell']).count()['Type Name'].to_dict()
+                for key, value in tmp_dic.items():
+                    totals[key] = str(value)
 
         return totals
