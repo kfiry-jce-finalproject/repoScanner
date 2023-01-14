@@ -13,17 +13,16 @@ class GithubDb:
         return df
 
 class GitHubDbPostgres:
-    columns = [ 'repo', 'repo_url']
+
     def __init__(self, filename):
         with open(filename) as f:
             dic = json.load(f)
         con_string = f"host={dic['host']} dbname={dic['dbname']} user={dic['user']} password={dic['password']}"
         self.conn = psycopg2.connect(con_string)
-
-
     def getReposByLanguage(self, lang):
+        columns = ['repo', 'repo_url']
         cursor = self.conn.cursor()
-        query = f"select {','.join(self.columns)} from repos where language = '{lang}' order by forks DESC"
+        query = f"select {','.join(columns)} from repos where language = '{lang}' order by forks DESC"
         print(query)
         cursor.execute(query)
 
@@ -32,14 +31,9 @@ class GitHubDbPostgres:
         cursor.close()
 
         # We just need to turn it into a pandas dataframe
-        df = pd.DataFrame(tupples, columns=self.columns)
+        df = pd.DataFrame(tupples, columns=columns)
         print(df)
         return df
-
-    def insertCodelQlRecord(self, codeql_record):
-        sql = """INSERT INTO CodeQlDbs(repo_id, lang, dbfilename, db_id, created_at,  VALUES ()"""
-        self.conn.cur.execute(sql, (value1,value2))
-
 
 class GitHubDbMongoDb:
     def __init__(self, filename):
@@ -49,7 +43,6 @@ class GitHubDbMongoDb:
         self.client = pymongo.MongoClient(con_string)
         self.db = self.client[dic['dbname']]
         self.metric_col = self.db['projectInternalMetric']
-
     def insert_record(self, row):
         self.metric_col.insert_one(row)
 
